@@ -3,12 +3,23 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js'
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
-// Client for server-side operations (App Router)
+// Server-side client (App Router)
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
-// Create client for client-side use (browser)
+// Browser client singleton (to avoid multiple GoTrueClient instances)
+let browserClient: SupabaseClient | null = null
+
 export function createClientSide(): SupabaseClient {
-  return createClient(supabaseUrl, supabaseAnonKey)
+  if (typeof window === 'undefined') {
+    // Server-side fallback
+    return supabase
+  }
+  
+  if (!browserClient) {
+    browserClient = createClient(supabaseUrl, supabaseAnonKey)
+  }
+  
+  return browserClient
 }
 
 export type ContentStatus = 'pending' | 'approved' | 'rejected'
