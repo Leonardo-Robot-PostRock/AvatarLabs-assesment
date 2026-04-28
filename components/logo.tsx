@@ -20,45 +20,37 @@ export function Logo({ className = "", size = "md" }: LogoProps) {
     lg: { main: 28, small: 10 },
   }
 
-  // Position stars in a circular orbit (moon-like)
+  // Crescent moon formation: stars stacked on the upper-right side
   const smallStars = [
-    { angle: 0, color: "purple" },
-    { angle: 90, color: "blue" },
-    { angle: 180, color: "green" },
-    { angle: 270, color: "pink" },
+    { x: 78, y: 18, color: "purple" },   // top-right
+    { x: 92, y: 32, color: "blue" },     // upper-right
+    { x: 98, y: 52, color: "green" },    // middle-right
+    { x: 88, y: 75, color: "pink" },     // lower-right
   ]
-
-  const orbitRadius = size === "sm" ? "60%" : size === "md" ? "65%" : "65%"
 
   return (
     <div className={`relative inline-flex ${sizeClasses[size]} ${className}`}>
-      {/* Main star - center */}
+      {/* Main star - center-left (exposed part of moon) */}
       <Star
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 fill-yellow-400 text-yellow-400 star-glow z-10"
+        className="absolute left-[35%] top-[50%] -translate-x-1/2 -translate-y-1/2 fill-yellow-400 text-yellow-400 star-glow z-10"
         size={starSizes[size].main}
         strokeWidth={2.5}
       />
       
-      {/* Small stars in circular orbit */}
-      {smallStars.map(({ angle, color }, index) => {
-        const radian = (angle * Math.PI) / 180
-        const x = 50 + 50 * Math.cos(radian)
-        const y = 50 + 50 * Math.sin(radian)
-        
-        return (
-          <Star
-            key={index}
-            className={`absolute fill-${color}-400 text-${color}-400 z-0`}
-            style={{
-              left: `${x}%`,
-              top: `${y}%`,
-              transform: 'translate(-50%, -50%)',
-            }}
-            size={starSizes[size].small}
-            strokeWidth={1.5}
-          />
-        )
-      })}
+      {/* Small stars forming crescent moon on the right */}
+      {smallStars.map(({ x, y, color }, index) => (
+        <Star
+          key={index}
+          className={`absolute fill-${color}-400 text-${color}-400 z-0`}
+          style={{
+            left: `${x}%`,
+            top: `${y}%`,
+            transform: 'translate(-50%, -50%)',
+          }}
+          size={starSizes[size].small}
+          strokeWidth={1.5}
+        />
+      ))}
     </div>
   )
 }
