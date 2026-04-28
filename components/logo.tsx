@@ -20,24 +20,24 @@ export function Logo({ className = "", size = "md" }: LogoProps) {
     lg: { main: 28, small: 10 },
   }
 
-  // Crescent moon formation: stars stacked on the upper-right side
+  // Crescent moon formation: stars closer to main star
   const smallStars = [
-    { x: 78, y: 18, color: "purple" },   // top-right
-    { x: 92, y: 32, color: "blue" },     // upper-right
-    { x: 98, y: 52, color: "green" },    // middle-right
-    { x: 88, y: 75, color: "pink" },     // lower-right
+    { x: 65, y: 25, color: "purple" },   // upper-right
+    { x: 78, y: 38, color: "blue" },     // right-upper
+    { x: 82, y: 55, color: "green" },    // right-center
+    { x: 72, y: 72, color: "pink" },      // lower-right
   ]
 
   return (
     <div className={`relative inline-flex ${sizeClasses[size]} ${className}`}>
-      {/* Main star - center-left (exposed part of moon) */}
+      {/* Main star - center-left */}
       <Star
-        className="absolute left-[35%] top-[50%] -translate-x-1/2 -translate-y-1/2 fill-yellow-400 text-yellow-400 star-glow z-10"
+        className="absolute left-[30%] top-[50%] -translate-x-1/2 -translate-y-1/2 fill-yellow-400 text-yellow-400 star-glow z-10"
         size={starSizes[size].main}
         strokeWidth={2.5}
       />
       
-      {/* Small stars forming crescent moon on the right */}
+      {/* Small stars forming crescent moon */}
       {smallStars.map(({ x, y, color }, index) => (
         <Star
           key={index}
