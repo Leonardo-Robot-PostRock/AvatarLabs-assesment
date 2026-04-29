@@ -38,7 +38,7 @@ export function ContentList({ items }: ContentListProps) {
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 p-2">
       {items.map((item) => (
         <Card key={item.id} className="overflow-hidden animate-fade-in">
           <CardContent className="p-3 sm:p-4">

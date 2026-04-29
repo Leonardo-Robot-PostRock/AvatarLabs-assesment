@@ -140,6 +140,15 @@ frontend/
 - **Responsive**: Mobile first, funciona en móvil y desktop
 - **shadcn/ui**: Componentes accesibles con variantes
 
+### Retoques Humanos
+
+La interfaz fue ajustada manualmente para mejorar la experiencia:
+
+- **Floating button**: Posicionamiento en esquina inferior derecha para acceso rápido en móvil
+- **Modal backdrop**: Fondo difuminado para enfoque en el formulario
+- **Ajustes de spacing**: Espaciado refinado para mejor legibilidad
+- **Micro-interacciones**: Detalles visuales para flujo natural
+
 ---
 
 ## 📦 Dependencies Aggregated

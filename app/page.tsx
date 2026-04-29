@@ -223,9 +223,9 @@ export default function DashboardPage() {
       </div>
 
       {/* Mobile: Floating Create Button / Modal */}
-      <div className="fixed bottom-6 right-6 z-50 xl:hidden">
+      <div className="fixed inset-0 pointer-events-none z-50 xl:hidden">
         {showCreateForm && (
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 -translate-y-24" onClick={() => setShowCreateForm(false)}>
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 pointer-events-auto" onClick={() => setShowCreateForm(false)}>
             <Card className="w-full max-w-sm shadow-2xl" onClick={(e) => e.stopPropagation()}>
               <CardContent className="p-4">
                 <div className="flex items-center justify-between mb-3">
@@ -240,15 +240,17 @@ export default function DashboardPage() {
           </div>
         )}
         
-        {!showCreateForm && (
-          <Button
-            size="lg"
-            className="rounded-full w-14 h-14 shadow-lg"
-            onClick={() => setShowCreateForm(true)}
-          >
-            <Plus className="w-6 h-6" />
-          </Button>
-        )}
+        <div className="absolute bottom-6 right-6 pointer-events-auto">
+          {!showCreateForm && (
+            <Button
+              size="lg"
+              className="rounded-full w-14 h-14 shadow-lg"
+              onClick={() => setShowCreateForm(true)}
+            >
+              <Plus className="w-6 h-6" />
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   )
