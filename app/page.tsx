@@ -111,7 +111,7 @@ export default function DashboardPage() {
               <p className="text-xs sm:text-sm text-muted-foreground">5-Star Brand</p>
             </div>
           </div>
-          
+
           <div className="text-xs">
             {realtimeConnected ? (
               <span className="flex items-center gap-1 text-green-500">
@@ -171,7 +171,7 @@ export default function DashboardPage() {
           <div className="flex-1 min-w-0 flex flex-col min-h-[400px] xl:min-h-0 xl:max-h-[calc(100vh-280px)]">
             {/* Search + Filter Toggle */}
             <div className="space-y-2 mb-3 sm:mb-4">
-              <div className="flex items-center gap-2 px-2 lg:pl-2 lg:pr-0">
+              <div className="flex items-center gap-2 px-2 lg:pl-2">
                 <div className="relative flex-1">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
@@ -204,15 +204,13 @@ export default function DashboardPage() {
             </div>
 
             {/* Scrollable List */}
-            <div className="flex-1 overflow-y-auto xl:pr-2">
-              {loading ? (
-                <div className="flex items-center justify-center py-8 sm:py-12">
-                  <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin text-muted-foreground" />
-                </div>
-              ) : (
-                <ContentList items={filteredContent} />
-              )}
-            </div>
+            {loading ? (
+              <div className="flex items-center justify-center py-8 sm:py-12">
+                <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin text-muted-foreground" />
+              </div>
+            ) : (
+              <ContentList items={filteredContent} />
+            )}
           </div>
         </div>
       </div>
@@ -234,7 +232,7 @@ export default function DashboardPage() {
             </Card>
           </div>
         )}
-        
+
         <div className="absolute bottom-6 right-6 pointer-events-auto">
           {!showCreateForm && (
             <Button

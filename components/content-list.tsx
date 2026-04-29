@@ -25,7 +25,7 @@ export function ContentList({ items }: ContentListProps) {
 
   if (items.length === 0) {
     return (
-      <Card className="p-6 sm:p-8 text-center">
+      <Card className="mx-2 mt-1 p-6 sm:p-8 text-center">
         <CardContent>
           <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
             <Clock className="w-6 h-6 sm:w-8 sm:h-8 text-muted-foreground" />
@@ -38,7 +38,7 @@ export function ContentList({ items }: ContentListProps) {
   }
 
   return (
-    <div className="space-y-3 p-2">
+    <div className={`space-y-3 p-2 ${items.length > 3 ? 'lg:overflow-y-auto lg:mr-2' : ''} `}>
       {items.map((item) => (
         <Card key={item.id} className="overflow-hidden animate-fade-in">
           <CardContent className="p-3 sm:p-4">
@@ -59,9 +59,9 @@ export function ContentList({ items }: ContentListProps) {
                   </Link>
                 </div>
               </div>
-              
+
               <p className="text-xs sm:text-sm text-muted-foreground truncate">{item.video_url}</p>
-              
+
               <div className="flex items-center gap-2 sm:gap-4 text-xs text-muted-foreground">
                 <span>{new Date(item.created_at).toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
                 {item.status === 'rejected' && item.feedback && (
@@ -70,7 +70,7 @@ export function ContentList({ items }: ContentListProps) {
                   </button>
                 )}
               </div>
-              
+
               {showFeedback === item.id && item.feedback && (
                 <div className="p-3 bg-red-500/10 rounded-lg border border-red-500/20">
                   <p className="text-xs sm:text-sm text-red-400 font-medium mb-1">Rejection Feedback:</p>
