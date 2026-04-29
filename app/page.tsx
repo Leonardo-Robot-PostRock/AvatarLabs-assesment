@@ -183,11 +183,6 @@ export default function DashboardPage() {
                 </div>
                 <Button variant="outline" size="sm" onClick={() => setShowFilters(!showFilters)} className="gap-2 rounded-sm w-8 h-8 mr-2">
                   <Filter className="w-4 h-4" />
-                  {filter !== 'all' && (
-                    <span className="ml-1 px-1.5 py-0.5 text-xs bg-primary text-primary-foreground rounded">
-                      {filter}
-                    </span>
-                  )}
                 </Button>
               </div>
 
