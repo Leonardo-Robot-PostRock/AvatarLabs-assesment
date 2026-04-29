@@ -171,7 +171,7 @@ export default function DashboardPage() {
           <div className="flex-1 min-w-0 flex flex-col min-h-[400px] xl:min-h-0 xl:max-h-[calc(100vh-280px)]">
             {/* Search + Filter Toggle */}
             <div className="space-y-2 mb-3 sm:mb-4">
-              <div className="flex items-center gap-2 px-2">
+              <div className="flex items-center gap-2 px-2 lg:pl-2 lg:pr-0">
                 <div className="relative flex-1">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
@@ -181,7 +181,7 @@ export default function DashboardPage() {
                     className="pl-9 rounded-sm"
                   />
                 </div>
-                <Button variant="outline" size="sm" onClick={() => setShowFilters(!showFilters)} className="gap-2 rounded-sm w-8 h-8 mr-2">
+                <Button variant="outline" size="sm" onClick={() => setShowFilters(!showFilters)} className="gap-2 rounded-sm w-8 h-8">
                   <Filter className="w-4 h-4" />
                 </Button>
               </div>
