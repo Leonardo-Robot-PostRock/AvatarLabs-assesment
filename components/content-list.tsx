@@ -24,13 +24,13 @@ export function ContentList({ items }: ContentListProps) {
 
   if (items.length === 0) {
     return (
-      <Card className="p-8 text-center">
+      <Card className="p-6 sm:p-8 text-center">
         <CardContent>
-          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
-            <Clock className="w-8 h-8 text-muted-foreground" />
+          <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
+            <Clock className="w-6 h-6 sm:w-8 sm:h-8 text-muted-foreground" />
           </div>
-          <h3 className="text-lg font-semibold mb-2">No Content Yet</h3>
-          <p className="text-muted-foreground">
+          <h3 className="text-base sm:text-lg font-semibold mb-2">No Content Yet</h3>
+          <p className="text-sm text-muted-foreground">
             Create your first content piece to get started
           </p>
         </CardContent>
@@ -39,20 +39,20 @@ export function ContentList({ items }: ContentListProps) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3 sm:space-y-4">
       {items.map((item) => (
         <Card key={item.id} className="overflow-hidden animate-fade-in">
-          <CardContent className="p-4">
-            <div className="flex items-start justify-between gap-4">
+          <CardContent className="p-3 sm:p-4">
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-3 mb-2">
-                  <h3 className="font-semibold truncate">{item.title}</h3>
+                <div className="flex items-center gap-2 sm:gap-3 mb-2 flex-wrap">
+                  <h3 className="font-semibold truncate text-sm sm:text-base">{item.title}</h3>
                   <StatusBadge status={item.status} />
                 </div>
-                <p className="text-sm text-muted-foreground truncate mb-2">
+                <p className="text-xs sm:text-sm text-muted-foreground truncate mb-2">
                   {item.video_url}
                 </p>
-                <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                <div className="flex items-center gap-2 sm:gap-4 text-xs text-muted-foreground">
                   <span>
                     {new Date(item.created_at).toLocaleDateString('en-US', {
                       month: 'short',
@@ -67,7 +67,7 @@ export function ContentList({ items }: ContentListProps) {
                       className="flex items-center gap-1 text-red-400 hover:text-red-300"
                     >
                       <MessageSquare className="w-3 h-3" />
-                      View feedback
+                      <span className="hidden sm:inline">View feedback</span>
                     </button>
                   )}
                 </div>
@@ -79,7 +79,7 @@ export function ContentList({ items }: ContentListProps) {
                 )}
               </div>
               
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 self-end sm:self-auto">
                 <Button
                   variant="outline"
                   size="sm"
@@ -89,12 +89,12 @@ export function ContentList({ items }: ContentListProps) {
                   {copiedId === item.id ? (
                     <>
                       <Check className="w-3 h-3" />
-                      Copied
+                      <span className="hidden sm:inline">Copied</span>
                     </>
                   ) : (
                     <>
                       <Copy className="w-3 h-3" />
-                      Link
+                      <span className="hidden sm:inline">Link</span>
                     </>
                   )}
                 </Button>
