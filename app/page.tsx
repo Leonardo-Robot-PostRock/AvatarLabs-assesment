@@ -171,7 +171,7 @@ export default function DashboardPage() {
           <div className="flex-1 min-w-0 flex flex-col min-h-[400px] xl:min-h-0 xl:max-h-[calc(100vh-280px)]">
             {/* Search + Filter Toggle */}
             <div className="space-y-2 mb-3 sm:mb-4">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 px-2">
                 <div className="relative flex-1">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
