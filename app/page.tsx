@@ -9,7 +9,6 @@ import { Card, CardContent } from '@/components/ui/card'
 import { getAllContent } from '@/features/content/service'
 import { createClientSide } from '@/lib/supabase'
 import { Loader2, Wifi, WifiOff } from 'lucide-react'
-import type { SupabaseClient } from '@supabase/supabase-js'
 
 export default function DashboardPage() {
   const [content, setContent] = useState<ContentPiece[]>([])
@@ -125,18 +124,20 @@ export default function DashboardPage() {
           </Card>
         </div>
 
-        {/* Main Content */}
-        <div className="flex flex-col md:flex-row gap-4 sm:gap-6">
-          {/* Create Form */}
-          <Card className="md:w-72 lg:w-80 flex-shrink-0 md:sticky md:top-4 h-fit">
-            <CardContent className="p-4 sm:p-6">
-              <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Create Content</h2>
-              <ContentForm onSuccess={handleSuccess} />
-            </CardContent>
-          </Card>
+        {/* Main Content Area */}
+        <div className="flex flex-col lg:flex-row gap-4 sm:gap-6">
+          {/* Mobile: form on top | Desktop large: form as first item in list area */}
+          <div className="w-full lg:w-80 lg:order-2">
+            <Card className="lg:sticky lg:top-4 h-fit">
+              <CardContent className="p-4 sm:p-6">
+                <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Create Content</h2>
+                <ContentForm onSuccess={handleSuccess} />
+              </CardContent>
+            </Card>
+          </div>
 
           {/* Content List */}
-          <div className="flex-1 min-w-0">
+          <div className="flex-1 min-w-0 lg:order-1">
             <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 flex items-center gap-2">
               Content Pieces
               <span className="text-xs text-muted-foreground">
