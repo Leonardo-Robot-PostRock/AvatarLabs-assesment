@@ -125,19 +125,17 @@ export default function DashboardPage() {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex flex-col lg:flex-row gap-4 sm:gap-6">
-          {/* Mobile: form on top | Desktop large: form as first item in list area */}
-          <div className="w-full lg:w-80 lg:order-2">
-            <Card className="lg:sticky lg:top-4 h-fit">
-              <CardContent className="p-4 sm:p-6">
-                <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Create Content</h2>
-                <ContentForm onSuccess={handleSuccess} />
-              </CardContent>
-            </Card>
-          </div>
+        <div className="flex flex-col xl:flex-row gap-4 sm:gap-6">
+          {/* Create Form - right side on large screens, aligned with list start */}
+          <Card className="xl:w-80 xl:sticky xl:top-4 xl:h-fit">
+            <CardContent className="p-4 sm:p-6">
+              <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Create Content</h2>
+              <ContentForm onSuccess={handleSuccess} />
+            </CardContent>
+          </Card>
 
-          {/* Content List */}
-          <div className="flex-1 min-w-0 lg:order-1">
+{/* Content List */}
+          <div className="flex-1 min-w-0">
             <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 flex items-center gap-2">
               Content Pieces
               <span className="text-xs text-muted-foreground">
