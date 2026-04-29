@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { getAllContent } from '@/features/content/service'
 import { createClientSide } from '@/lib/supabase'
-import { Loader2, Wifi, WifiOff, Filter, Search } from 'lucide-react'
+import { Loader2, Wifi, WifiOff, Filter, Search, Plus, X } from 'lucide-react'
 
 type FilterStatus = 'all' | 'pending' | 'approved' | 'rejected'
 
@@ -22,6 +22,7 @@ export default function DashboardPage() {
   const [filter, setFilter] = useState<FilterStatus>('all')
   const [search, setSearch] = useState('')
   const [showFilters, setShowFilters] = useState(false)
+  const [showCreateForm, setShowCreateForm] = useState(false)
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   const refreshContent = useCallback(async () => {
@@ -66,7 +67,10 @@ export default function DashboardPage() {
     return () => { if (pollingIntervalRef.current) clearInterval(pollingIntervalRef.current) }
   }, [usePolling, loading, refreshContent])
 
-  const handleSuccess = () => refreshContent()
+  const handleSuccess = () => {
+    refreshContent()
+    setShowCreateForm(false)
+  }
 
   const stats = useMemo(() => ({
     total: content.length,
@@ -153,13 +157,15 @@ export default function DashboardPage() {
 
         {/* Main Content Area */}
         <div className="flex flex-col xl:flex-row gap-4 sm:gap-6">
-          {/* Create Form */}
-          <Card className="xl:w-80 xl:sticky xl:top-4 xl:h-fit">
-            <CardContent className="p-4 sm:p-6">
-              <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Create Content</h2>
-              <ContentForm onSuccess={handleSuccess} />
-            </CardContent>
-          </Card>
+          {/* Create Form - Desktop: always visible | Mobile: toggleable */}
+          <div className="hidden xl:block xl:w-80 xl:sticky xl:top-4 xl:h-fit">
+            <Card className="xl:sticky xl:top-4">
+              <CardContent className="p-4 sm:p-6">
+                <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Create Content</h2>
+                <ContentForm onSuccess={handleSuccess} />
+              </CardContent>
+            </Card>
+          </div>
 
           {/* Content List Area */}
           <div className="flex-1 min-w-0 flex flex-col min-h-[400px] xl:min-h-0 xl:max-h-[calc(100vh-280px)]">
@@ -214,6 +220,31 @@ export default function DashboardPage() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Mobile: Floating Create Button */}
+      <div className="fixed bottom-6 right-6 z-50 xl:hidden">
+        {showCreateForm ? (
+          <Card className="w-[calc(100vw-3rem)] max-w-sm mb-20 shadow-2xl animate-in slide-in-from-bottom-4">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between mb-3">
+                <h2 className="font-semibold">Create Content</h2>
+                <Button variant="ghost" size="icon-sm" onClick={() => setShowCreateForm(false)}>
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+              <ContentForm onSuccess={handleSuccess} />
+            </CardContent>
+          </Card>
+        ) : (
+          <Button
+            size="lg"
+            className="rounded-full w-14 h-14 shadow-lg"
+            onClick={() => setShowCreateForm(true)}
+          >
+            <Plus className="w-6 h-6" />
+          </Button>
+        )}
       </div>
     </div>
   )
