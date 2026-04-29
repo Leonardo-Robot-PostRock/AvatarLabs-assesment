@@ -5,18 +5,18 @@ interface StatusBadgeProps {
   status: ContentStatus
 }
 
-const statusConfig = {
+const statusConfig: Record<ContentStatus, { label: string; className: string }> = {
   pending: {
-    variant: 'pending' as const,
     label: 'Pending',
+    className: 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400 border-yellow-500/30',
   },
   approved: {
-    variant: 'approved' as const,
     label: 'Approved',
+    className: 'bg-green-500/20 text-green-600 dark:text-green-400 border-green-500/30',
   },
   rejected: {
-    variant: 'rejected' as const,
     label: 'Rejected',
+    className: 'bg-red-500/20 text-red-600 dark:text-red-400 border-red-500/30',
   },
 }
 
@@ -24,7 +24,7 @@ export function StatusBadge({ status }: StatusBadgeProps) {
   const config = statusConfig[status]
   
   return (
-    <Badge variant={config.variant}>
+    <Badge className={config.className}>
       {config.label}
     </Badge>
   )

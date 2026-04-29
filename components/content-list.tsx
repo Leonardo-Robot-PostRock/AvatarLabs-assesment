@@ -6,6 +6,7 @@ import { StatusBadge } from '@/components/status-badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Copy, Check, ExternalLink, Clock, MessageSquare } from 'lucide-react'
+import Link from 'next/link'
 
 interface ContentListProps {
   items: ContentPiece[]
@@ -40,9 +41,8 @@ export function ContentList({ items }: ContentListProps) {
     <div className="space-y-3">
       {items.map((item) => (
         <Card key={item.id} className="overflow-hidden animate-fade-in">
-          <CardContent className="p-3 sm:p-4 lg:p-6">
+          <CardContent className="p-3 sm:p-4">
             <div className="flex flex-col gap-2">
-              {/* Title + Status row */}
               <div className="flex items-start justify-between gap-2">
                 <div className="flex items-center gap-2 flex-wrap min-w-0">
                   <h3 className="font-semibold truncate text-sm sm:text-base min-w-0">{item.title}</h3>
@@ -52,18 +52,16 @@ export function ContentList({ items }: ContentListProps) {
                   <Button variant="outline" size="sm" onClick={() => copyLink(item.public_token)} className="h-8 px-2 sm:px-3">
                     {copiedId === item.id ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
                   </Button>
-                  <Button variant="ghost" size="sm" asChild className="h-8 px-2">
-                    <a href={`/review/${item.public_token}`} target="_blank" rel="noopener noreferrer">
+                  <Link href={`/review/${item.public_token}`} target="_blank" rel="noopener noreferrer">
+                    <Button variant="ghost" size="sm" className="h-8 px-2">
                       <ExternalLink className="w-3 h-3" />
-                    </a>
-                  </Button>
+                    </Button>
+                  </Link>
                 </div>
               </div>
               
-              {/* URL */}
               <p className="text-xs sm:text-sm text-muted-foreground truncate">{item.video_url}</p>
               
-              {/* Date + Feedback */}
               <div className="flex items-center gap-2 sm:gap-4 text-xs text-muted-foreground">
                 <span>{new Date(item.created_at).toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
                 {item.status === 'rejected' && item.feedback && (
@@ -73,7 +71,6 @@ export function ContentList({ items }: ContentListProps) {
                 )}
               </div>
               
-              {/* Feedback expanded */}
               {showFeedback === item.id && item.feedback && (
                 <div className="p-3 bg-red-500/10 rounded-lg border border-red-500/20">
                   <p className="text-xs sm:text-sm text-red-400 font-medium mb-1">Rejection Feedback:</p>

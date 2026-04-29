@@ -225,7 +225,7 @@ export default function ReviewPage() {
                 <CardContent className="space-y-4">
                   {error && <div className="p-3 text-sm text-red-500 bg-red-500/10 rounded-lg">{error}</div>}
                   <div className="flex gap-4">
-                    <Button onClick={handleApprove} disabled={submitting} variant="success" className="flex-1">
+                    <Button onClick={handleApprove} disabled={submitting} className="flex-1 bg-green-600 hover:bg-green-700 text-white">
                       {submitting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Check className="w-4 h-4 mr-2" />}
                       Approve
                     </Button>

@@ -72,17 +72,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
   }
-}
-
-/* Custom utility classes */
-.glass-card {
-  @apply backdrop-blur-lg bg-white/80 dark:bg-black/40 border border-white/20 shadow-xl;
-}
-
-.gradient-text {
-  @apply bg-gradient-to-r from-purple-600 via-blue-500 to-yellow-500 bg-clip-text text-transparent;
 }
 
 .star-glow {
