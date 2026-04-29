@@ -163,18 +163,51 @@ export default function DashboardPage() {
 
           {/* Content List Area - scrollable */}
           <div className="flex-1 min-w-0 flex flex-col min-h-[400px] xl:min-h-0 xl:max-h-[calc(100vh-280px)]">
-            {/* Search + Filter Toggle */}
+{/* Search + Filter Toggle */}
             <div className="space-y-2 mb-3 sm:mb-4">
-              {/* Search */}
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <Input
-                  placeholder="Search by title or URL..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="pl-9"
-                />
+              {/* Search and Filter in same row */}
+              <div className="flex items-center gap-2">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Search by title or URL..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="pl-9"
+                  />
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowFilters(!showFilters)}
+                  className="gap-2"
+                >
+                  <Filter className="w-4 h-4" />
+                  {filter !== 'all' && (
+                    <span className="ml-1 px-1.5 py-0.5 text-xs bg-primary text-primary-foreground rounded">
+                      {filter}
+                    </span>
+                  )}
+                </Button>
               </div>
+
+              {/* Expandable Filters */}
+              {showFilters && (
+                <div className="flex items-center gap-2 flex-wrap pt-2 border-t">
+                  {filters.map(f => (
+                    <Button
+                      key={f.value}
+                      variant={filter === f.value ? 'secondary' : 'ghost'}
+                      size="sm"
+                      onClick={() => setFilter(f.value)}
+                      className="text-xs"
+                    >
+                      {f.label} ({f.count})
+                    </Button>
+                  ))}
+                </div>
+              )}
+            </div>
               
               {/* Filter toggle button */}
               <Button
