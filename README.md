@@ -146,6 +146,7 @@ La interfaz fue ajustada manualmente para mejorar la experiencia:
 
 - **Floating button**: Posicionamiento en esquina inferior derecha para acceso rápido en móvil
 - **Modal backdrop**: Fondo difuminado para enfoque en el formulario
+- **Custom scrollbar**: Estilo refinado con hover states para las listas
 - **Ajustes de spacing**: Espaciado refinado para mejor legibilidad
 - **Micro-interacciones**: Detalles visuales para flujo natural
 
