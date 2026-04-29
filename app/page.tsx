@@ -6,15 +6,19 @@ import { Logo } from '@/components/logo'
 import { ContentForm } from '@/components/content-form'
 import { ContentList } from '@/components/content-list'
 import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import { getAllContent } from '@/features/content/service'
 import { createClientSide } from '@/lib/supabase'
-import { Loader2, Wifi, WifiOff } from 'lucide-react'
+import { Loader2, Wifi, WifiOff, Filter } from 'lucide-react'
+
+type FilterStatus = 'all' | 'pending' | 'approved' | 'rejected'
 
 export default function DashboardPage() {
   const [content, setContent] = useState<ContentPiece[]>([])
   const [loading, setLoading] = useState(true)
   const [realtimeConnected, setRealtimeConnected] = useState(false)
   const [usePolling, setUsePolling] = useState(false)
+  const [filter, setFilter] = useState<FilterStatus>('all')
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   const refreshContent = useCallback(async () => {
@@ -67,6 +71,17 @@ export default function DashboardPage() {
     approved: content.filter(c => c.status === 'approved').length,
     rejected: content.filter(c => c.status === 'rejected').length,
   }
+
+  const filteredContent = content.filter(item => 
+    filter === 'all' ? true : item.status === filter
+  )
+
+  const filters: { value: FilterStatus; label: string; count: number }[] = [
+    { value: 'all', label: 'All', count: stats.total },
+    { value: 'pending', label: 'Pending', count: stats.pending },
+    { value: 'approved', label: 'Approved', count: stats.approved },
+    { value: 'rejected', label: 'Rejected', count: stats.rejected },
+  ]
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-purple-950/20 to-blue-950/20">
@@ -126,7 +141,7 @@ export default function DashboardPage() {
 
         {/* Main Content Area */}
         <div className="flex flex-col xl:flex-row gap-4 sm:gap-6">
-          {/* Create Form - right side on large screens, aligned with list start */}
+          {/* Create Form - right side on large screens */}
           <Card className="xl:w-80 xl:sticky xl:top-4 xl:h-fit">
             <CardContent className="p-4 sm:p-6">
               <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Create Content</h2>
@@ -134,21 +149,34 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-{/* Content List */}
-          <div className="flex-1 min-w-0">
-            <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 flex items-center gap-2">
-              Content Pieces
-              <span className="text-xs text-muted-foreground">
-                {realtimeConnected ? '(real-time)' : usePolling ? '(refresh)' : '(...)'}
-              </span>
-            </h2>
-            {loading ? (
-              <div className="flex items-center justify-center py-8 sm:py-12">
-                <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin text-muted-foreground" />
-              </div>
-            ) : (
-              <ContentList items={content} />
-            )}
+          {/* Content List Area - scrollable */}
+          <div className="flex-1 min-w-0 flex flex-col min-h-[400px] xl:min-h-0 xl:max-h-[calc(100vh-280px)]">
+            {/* Filters */}
+            <div className="flex items-center gap-2 mb-3 sm:mb-4 flex-wrap">
+              <Filter className="w-4 h-4 text-muted-foreground mr-1" />
+              {filters.map(f => (
+                <Button
+                  key={f.value}
+                  variant={filter === f.value ? 'secondary' : 'ghost'}
+                  size="sm"
+                  onClick={() => setFilter(f.value)}
+                  className="text-xs"
+                >
+                  {f.label} ({f.count})
+                </Button>
+              ))}
+            </div>
+
+            {/* Scrollable List */}
+            <div className="flex-1 overflow-y-auto xl:pr-2">
+              {loading ? (
+                <div className="flex items-center justify-center py-8 sm:py-12">
+                  <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin text-muted-foreground" />
+                </div>
+              ) : (
+                <ContentList items={filteredContent} />
+              )}
+            </div>
           </div>
         </div>
       </div>
