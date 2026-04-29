@@ -1,15 +1,16 @@
 "use client"
 
-import { useEffect, useState, useCallback, useRef } from 'react'
+import { useEffect, useState, useCallback, useRef, useMemo } from 'react'
 import { ContentPiece } from '@/features/content/types'
 import { Logo } from '@/components/logo'
 import { ContentForm } from '@/components/content-form'
 import { ContentList } from '@/components/content-list'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { getAllContent } from '@/features/content/service'
 import { createClientSide } from '@/lib/supabase'
-import { Loader2, Wifi, WifiOff, Filter } from 'lucide-react'
+import { Loader2, Wifi, WifiOff, Filter, Search } from 'lucide-react'
 
 type FilterStatus = 'all' | 'pending' | 'approved' | 'rejected'
 
@@ -19,6 +20,7 @@ export default function DashboardPage() {
   const [realtimeConnected, setRealtimeConnected] = useState(false)
   const [usePolling, setUsePolling] = useState(false)
   const [filter, setFilter] = useState<FilterStatus>('all')
+  const [search, setSearch] = useState('')
   const pollingIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   const refreshContent = useCallback(async () => {
@@ -65,16 +67,27 @@ export default function DashboardPage() {
 
   const handleSuccess = () => refreshContent()
 
-  const stats = {
+  const stats = useMemo(() => ({
     total: content.length,
     pending: content.filter(c => c.status === 'pending').length,
     approved: content.filter(c => c.status === 'approved').length,
     rejected: content.filter(c => c.status === 'rejected').length,
-  }
+  }), [content])
 
-  const filteredContent = content.filter(item => 
-    filter === 'all' ? true : item.status === filter
-  )
+  const filteredContent = useMemo(() => {
+    return content.filter(item => {
+      // Status filter
+      if (filter !== 'all' && item.status !== filter) return false
+      // Search filter (title or video URL)
+      if (search.trim()) {
+        const searchLower = search.toLowerCase()
+        const matchTitle = item.title.toLowerCase().includes(searchLower)
+        const matchUrl = item.video_url.toLowerCase().includes(searchLower)
+        if (!matchTitle && !matchUrl) return false
+      }
+      return true
+    })
+  }, [content, filter, search])
 
   const filters: { value: FilterStatus; label: string; count: number }[] = [
     { value: 'all', label: 'All', count: stats.total },
@@ -151,20 +164,33 @@ export default function DashboardPage() {
 
           {/* Content List Area - scrollable */}
           <div className="flex-1 min-w-0 flex flex-col min-h-[400px] xl:min-h-0 xl:max-h-[calc(100vh-280px)]">
-            {/* Filters */}
-            <div className="flex items-center gap-2 mb-3 sm:mb-4 flex-wrap">
-              <Filter className="w-4 h-4 text-muted-foreground mr-1" />
-              {filters.map(f => (
-                <Button
-                  key={f.value}
-                  variant={filter === f.value ? 'secondary' : 'ghost'}
-                  size="sm"
-                  onClick={() => setFilter(f.value)}
-                  className="text-xs"
-                >
-                  {f.label} ({f.count})
-                </Button>
-              ))}
+            {/* Filters + Search */}
+            <div className="space-y-2 mb-3 sm:mb-4">
+              {/* Search */}
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  placeholder="Search by title or URL..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="pl-9"
+                />
+              </div>
+              {/* Status filters */}
+              <div className="flex items-center gap-2 flex-wrap">
+                <Filter className="w-4 h-4 text-muted-foreground mr-1" />
+                {filters.map(f => (
+                  <Button
+                    key={f.value}
+                    variant={filter === f.value ? 'secondary' : 'ghost'}
+                    size="sm"
+                    onClick={() => setFilter(f.value)}
+                    className="text-xs"
+                  >
+                    {f.label} ({f.count})
+                  </Button>
+                ))}
+              </div>
             </div>
 
             {/* Scrollable List */}
