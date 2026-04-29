@@ -153,7 +153,7 @@ export default function DashboardPage() {
 
         {/* Main Content Area */}
         <div className="flex flex-col xl:flex-row gap-4 sm:gap-6">
-          {/* Create Form - right side on large screens */}
+          {/* Create Form */}
           <Card className="xl:w-80 xl:sticky xl:top-4 xl:h-fit">
             <CardContent className="p-4 sm:p-6">
               <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Create Content</h2>
@@ -161,11 +161,10 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
 
-          {/* Content List Area - scrollable */}
+          {/* Content List Area */}
           <div className="flex-1 min-w-0 flex flex-col min-h-[400px] xl:min-h-0 xl:max-h-[calc(100vh-280px)]">
-{/* Search + Filter Toggle */}
+            {/* Search + Filter Toggle */}
             <div className="space-y-2 mb-3 sm:mb-4">
-              {/* Search and Filter in same row */}
               <div className="flex items-center gap-2">
                 <div className="relative flex-1">
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -176,12 +175,7 @@ export default function DashboardPage() {
                     className="pl-9"
                   />
                 </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => setShowFilters(!showFilters)}
-                  className="gap-2"
-                >
+                <Button variant="outline" size="sm" onClick={() => setShowFilters(!showFilters)} className="gap-2">
                   <Filter className="w-4 h-4" />
                   {filter !== 'all' && (
                     <span className="ml-1 px-1.5 py-0.5 text-xs bg-primary text-primary-foreground rounded">
@@ -191,41 +185,6 @@ export default function DashboardPage() {
                 </Button>
               </div>
 
-              {/* Expandable Filters */}
-              {showFilters && (
-                <div className="flex items-center gap-2 flex-wrap pt-2 border-t">
-                  {filters.map(f => (
-                    <Button
-                      key={f.value}
-                      variant={filter === f.value ? 'secondary' : 'ghost'}
-                      size="sm"
-                      onClick={() => setFilter(f.value)}
-                      className="text-xs"
-                    >
-                      {f.label} ({f.count})
-                    </Button>
-                  ))}
-                </div>
-              )}
-            </div>
-              
-              {/* Filter toggle button */}
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowFilters(!showFilters)}
-                className="gap-2"
-              >
-                <Filter className="w-4 h-4" />
-                Filters
-                {filter !== 'all' && (
-                  <span className="ml-1 px-1.5 py-0.5 text-xs bg-primary text-primary-foreground rounded">
-                    {filter}
-                  </span>
-                )}
-              </Button>
-
-              {/* Expandable Filters */}
               {showFilters && (
                 <div className="flex items-center gap-2 flex-wrap pt-2 border-t">
                   {filters.map(f => (
