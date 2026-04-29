@@ -136,7 +136,7 @@ export default function DashboardPage() {
           </Card>
 
           {/* Content List */}
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 flex items-center gap-2">
               Content Pieces
               <span className="text-xs text-muted-foreground">
