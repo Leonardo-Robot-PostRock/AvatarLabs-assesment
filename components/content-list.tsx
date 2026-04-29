@@ -43,13 +43,13 @@ export function ContentList({ items }: ContentListProps) {
       {items.map((item) => (
         <Card key={item.id} className="overflow-hidden animate-fade-in">
           <CardContent className="p-3 sm:p-4">
-            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 sm:gap-4">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 sm:gap-3 mb-2 flex-wrap">
                   <h3 className="font-semibold truncate text-sm sm:text-base">{item.title}</h3>
                   <StatusBadge status={item.status} />
                 </div>
-                <p className="text-xs sm:text-sm text-muted-foreground truncate mb-2">
+                <p className="text-xs sm:text-sm text-muted-foreground truncate mb-1 sm:mb-2">
                   {item.video_url}
                 </p>
                 <div className="flex items-center gap-2 sm:gap-4 text-xs text-muted-foreground">
@@ -72,14 +72,14 @@ export function ContentList({ items }: ContentListProps) {
                   )}
                 </div>
                 {showFeedback === item.id && item.feedback && (
-                  <div className="mt-3 p-3 bg-red-500/10 rounded-lg border border-red-500/20">
+                  <div className="mt-2 sm:mt-3 p-3 bg-red-500/10 rounded-lg border border-red-500/20">
                     <p className="text-sm text-red-400 font-medium mb-1">Rejection Feedback:</p>
                     <p className="text-sm text-foreground">{item.feedback}</p>
                   </div>
                 )}
               </div>
               
-              <div className="flex items-center gap-2 self-end sm:self-auto">
+              <div className="flex items-center gap-2 self-end sm:self-start">
                 <Button
                   variant="outline"
                   size="sm"

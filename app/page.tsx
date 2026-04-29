@@ -71,25 +71,25 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-purple-950/20 to-blue-950/20">
-      <div className="max-w-4xl mx-auto px-4 py-6">
+      <div className="max-w-5xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
         {/* Header */}
-        <header className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
+        <header className="flex items-center justify-between mb-4 sm:mb-8">
+          <div className="flex items-center gap-2 sm:gap-3">
             <Logo size="sm" />
             <div>
-              <h1 className="text-lg font-bold gradient-text">Content Approval</h1>
-              <p className="text-xs text-muted-foreground">5-Star Brand</p>
+              <h1 className="text-lg sm:text-2xl font-bold gradient-text">Content Approval</h1>
+              <p className="text-xs sm:text-sm text-muted-foreground">5-Star Brand</p>
             </div>
           </div>
           
           <div className="text-xs">
             {realtimeConnected ? (
               <span className="flex items-center gap-1 text-green-500">
-                <Wifi className="w-3 h-3" /> Realtime
+                <Wifi className="w-3 h-3" /> <span className="hidden sm:inline">Realtime</span>
               </span>
             ) : usePolling ? (
               <span className="flex items-center gap-1 text-yellow-500">
-                <WifiOff className="w-3 h-3" /> Polling
+                <WifiOff className="w-3 h-3" /> <span className="hidden sm:inline">Polling</span>
               </span>
             ) : (
               <span className="text-muted-foreground text-xs">...</span>
@@ -97,55 +97,55 @@ export default function DashboardPage() {
           </div>
         </header>
 
-        {/* Stats - Mobile: 2 cols, Desktop: 4 cols */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+        {/* Stats */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 mb-4 sm:mb-8">
           <Card className="bg-card/50 backdrop-blur">
-            <CardContent className="p-3 text-center">
-              <p className="text-2xl font-bold">{loading ? '-' : stats.total}</p>
+            <CardContent className="p-3 sm:p-4 text-center">
+              <p className="text-xl sm:text-3xl font-bold">{loading ? '-' : stats.total}</p>
               <p className="text-xs text-muted-foreground">Total</p>
             </CardContent>
           </Card>
           <Card className="bg-yellow-500/10 border-yellow-500/20">
-            <CardContent className="p-3 text-center">
-              <p className="text-2xl font-bold text-yellow-500">{loading ? '-' : stats.pending}</p>
+            <CardContent className="p-3 sm:p-4 text-center">
+              <p className="text-xl sm:text-3xl font-bold text-yellow-500">{loading ? '-' : stats.pending}</p>
               <p className="text-xs text-yellow-600 dark:text-yellow-400">Pending</p>
             </CardContent>
           </Card>
           <Card className="bg-green-500/10 border-green-500/20">
-            <CardContent className="p-3 text-center">
-              <p className="text-2xl font-bold text-green-500">{loading ? '-' : stats.approved}</p>
+            <CardContent className="p-3 sm:p-4 text-center">
+              <p className="text-xl sm:text-3xl font-bold text-green-500">{loading ? '-' : stats.approved}</p>
               <p className="text-xs text-green-600 dark:text-green-400">Approved</p>
             </CardContent>
           </Card>
           <Card className="bg-red-500/10 border-red-500/20">
-            <CardContent className="p-3 text-center">
-              <p className="text-2xl font-bold text-red-500">{loading ? '-' : stats.rejected}</p>
+            <CardContent className="p-3 sm:p-4 text-center">
+              <p className="text-xl sm:text-3xl font-bold text-red-500">{loading ? '-' : stats.rejected}</p>
               <p className="text-xs text-red-600 dark:text-red-400">Rejected</p>
             </CardContent>
           </Card>
         </div>
 
-        {/* Main Content - Mobile: stacked, Desktop: side by side */}
-        <div className="flex flex-col lg:flex-row gap-6">
-          {/* Create Form - Mobile: full width, Desktop: 1/3 */}
-          <Card className="lg:w-80 flex-shrink-0 lg:h-fit lg:sticky lg:top-4">
+        {/* Main Content */}
+        <div className="flex flex-col md:flex-row gap-4 sm:gap-6">
+          {/* Create Form */}
+          <Card className="md:w-72 lg:w-80 flex-shrink-0 md:sticky md:top-4 h-fit">
             <CardContent className="p-4 sm:p-6">
-              <h2 className="text-lg font-semibold mb-4">Create Content</h2>
+              <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Create Content</h2>
               <ContentForm onSuccess={handleSuccess} />
             </CardContent>
           </Card>
 
-          {/* Content List - Mobile: full width, Desktop: 2/3 */}
+          {/* Content List */}
           <div className="flex-1">
-            <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
+            <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 flex items-center gap-2">
               Content Pieces
               <span className="text-xs text-muted-foreground">
-                {realtimeConnected ? '(real-time)' : usePolling ? '(refreshing)' : '(connecting...)'}
+                {realtimeConnected ? '(real-time)' : usePolling ? '(refresh)' : '(...)'}
               </span>
             </h2>
             {loading ? (
-              <div className="flex items-center justify-center py-12">
-                <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+              <div className="flex items-center justify-center py-8 sm:py-12">
+                <Loader2 className="w-5 h-5 sm:w-6 sm:h-6 animate-spin text-muted-foreground" />
               </div>
             ) : (
               <ContentList items={content} />
