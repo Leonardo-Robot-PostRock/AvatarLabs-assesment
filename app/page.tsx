@@ -222,21 +222,25 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Mobile: Floating Create Button */}
-      <div className="fixed bottom-6 right-6 z-50 xl:hidden">
-        {showCreateForm ? (
-          <Card className="w-[calc(100vw-3rem)] max-w-sm mb-20 shadow-2xl animate-in slide-in-from-bottom-4">
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between mb-3">
-                <h2 className="font-semibold">Create Content</h2>
-                <Button variant="ghost" size="icon-sm" onClick={() => setShowCreateForm(false)}>
-                  <X className="w-4 h-4" />
-                </Button>
-              </div>
-              <ContentForm onSuccess={handleSuccess} />
-            </CardContent>
-          </Card>
-        ) : (
+      {/* Mobile: Floating Create Button / Modal */}
+      <div className="fixed inset-0 z-50 xl:hidden">
+        {showCreateForm && (
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setShowCreateForm(false)}>
+            <Card className="w-full max-w-sm shadow-2xl" onClick={(e) => e.stopPropagation()}>
+              <CardContent className="p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <h2 className="font-semibold">Create Content</h2>
+                  <Button variant="ghost" size="icon-sm" onClick={() => setShowCreateForm(false)}>
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+                <ContentForm onSuccess={handleSuccess} />
+              </CardContent>
+            </Card>
+          </div>
+        )}
+        
+        {!showCreateForm && (
           <Button
             size="lg"
             className="rounded-full w-14 h-14 shadow-lg"
