@@ -178,10 +178,10 @@ export default function DashboardPage() {
                     placeholder="Search by title or URL..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="pl-9"
+                    className="pl-9 rounded-sm"
                   />
                 </div>
-                <Button variant="outline" size="sm" onClick={() => setShowFilters(!showFilters)} className="gap-2">
+                <Button variant="outline" size="sm" onClick={() => setShowFilters(!showFilters)} className="gap-2 rounded-sm w-8 h-8 mr-2">
                   <Filter className="w-4 h-4" />
                   {filter !== 'all' && (
                     <span className="ml-1 px-1.5 py-0.5 text-xs bg-primary text-primary-foreground rounded">
@@ -192,14 +192,14 @@ export default function DashboardPage() {
               </div>
 
               {showFilters && (
-                <div className="flex items-center gap-2 flex-wrap pt-2 border-t">
+                <div className={`flex items-center gap-2 flex-wrap pt-2 border-t mx-2 animate-fade-in`}>
                   {filters.map(f => (
                     <Button
                       key={f.value}
                       variant={filter === f.value ? 'secondary' : 'ghost'}
                       size="sm"
                       onClick={() => setFilter(f.value)}
-                      className="text-xs"
+                      className="text-xs rounded-sm"
                     >
                       {f.label} ({f.count})
                     </Button>
