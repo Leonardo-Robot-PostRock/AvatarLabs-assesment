@@ -19,9 +19,9 @@ Es una herramienta donde tu agencia te comparte un video para que lo revises y d
 
 ### ¿Qué necesito?
 
-- Un navegador (Chrome, Safari, Edge, Firefox)
+- Un navegador moderno
 - El link que te mandaron
-- ¡Eso es todo! No hace falta crear cuenta ni.password
+- ¡Eso es todo! No hace falta crear cuenta
 
 ---
 
@@ -29,19 +29,12 @@ Es una herramienta donde tu agencia te comparte un video para que lo revises y d
 
 | Tecnología | Para qué |
 |------------|----------|
-| **Next.js 14** | Framework web (App Router) |
-| **React 18** | Interfaz de usuario |
-| **TypeScript** | Código más seguro y mantenible |
+| **Next.js 16** | Framework web más rápido |
+| **React 19** | Interfaz de usuario |
+| **TypeScript** | Código typesafe |
 | **Tailwind CSS** | Estilos modernos y responsivos |
+| **shadcn/ui** | Componentes accesibles y bellos |
 | **Supabase** | Base de datos + Realtime |
-| **Lucide React** | Íconos |
-| **Nanoid** | Tokens seguros para links |
-
-### ¿Por qué estas tecnologías?
-
-- **Next.js**: Deploy rápido a Vercel, rendimiento óptimo
-- **Supabase Realtime**: Actualización instantánea sin recargar (como WhatsApp)
-- **Tailwind**: UI bonita sin escribir CSS manualmente
 
 ---
 
@@ -49,8 +42,7 @@ Es una herramienta donde tu agencia te comparte un video para que lo revises y d
 
 ### Desarrollador
 - Node.js 18+
-- npm o yarn
-- Cuenta de Supabase
+- npm
 
 ### Cliente
 - Navegador moderno
@@ -64,37 +56,14 @@ Es una herramienta donde tu agencia te comparte un video para que lo revises y d
 
 ```bash
 git clone <repo-url>
-cd content-approval-app/frontend
+cd frontend
 ```
 
 ### 2. Configurar Supabase
 
 1. Crear proyecto en [supabase.com](https://supabase.com)
-2. Ir al **SQL Editor** y ejecutar:
-
-```sql
--- Tabla principal
-CREATE TABLE IF NOT EXISTS content_pieces (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  title TEXT NOT NULL,
-  video_url TEXT NOT NULL,
-  status TEXT NOT NULL DEFAULT 'pending' 
-    CHECK (status IN ('pending', 'approved', 'rejected')),
-  feedback TEXT,
-  public_token TEXT UNIQUE NOT NULL,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-
--- Índices para mejor rendimiento
-CREATE INDEX idx_token ON content_pieces(public_token);
-CREATE INDEX idx_fecha ON content_pieces(created_at DESC);
-
--- Habilitar Realtime
-ALTER PUBLICATION supabase_realtime ADD TABLE content_pieces;
-
--- Permisos (para desarrollo)
-ALTER TABLE content_pieces DISABLE ROW LEVEL SECURITY;
-```
+2. Ir al **SQL Editor** y ejecutar `supabase/setup.sql`
+3. Ejecutar `supabase/realtime.sql`
 
 ### 3. Variables de entorno
 
@@ -105,7 +74,7 @@ cp .env.example .env.local
 Editar `.env.local`:
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://tu-proyecto.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJh... (tu anon key)
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJh...
 ```
 
 ### 4. Instalar y ejecutar
@@ -126,21 +95,28 @@ frontend/
 ├── app/                      # Páginas de Next.js
 │   ├── page.tsx             # Dashboard (agencia)
 │   ├── review/[token]/      # Página del cliente
-│   └── actions.ts           # Acciones del servidor
-├── components/              # Componentes UI
-│   ├── ui/                  # Componentes base (Button, Card, etc.)
-│   ├── content-form.tsx     # Formulario de creación
-│   └── content-list.tsx     # Lista de contenidos
-├── features/content/        # Lógica de negocio
-│   ├── service.ts           # Operaciones con Supabase
-│   ├── types.ts             # Tipos TypeScript
-│   └── utils.ts             # Utilidades (tokens, URLs)
+│   └── actions.ts           # Server actions
+├── components/
+│   ├── ui/                  # Componentes shadcn/ui
+│   │   ├── button.tsx
+│   │   ├── card.tsx
+│   │   ├── input.tsx
+│   │   ├── badge.tsx
+│   │   └── ...
+│   ├── content-form.tsx      # Formulario de creación
+│   ├── content-list.tsx     # Lista de contenidos
+│   ├── logo.tsx             # Logo 5 estrellas
+│   └── status-badge.tsx     # Badge de estado
+├── features/content/       # Lógica de negocio
+│   ├── service.ts           # Operaciones DB
+│   ├── types.ts              # Tipos TypeScript
+│   └── utils.ts              # Utilidades
 ├── lib/                     # Configuraciones
 │   └── supabase.ts          # Cliente de Supabase
 ├── supabase/                # SQL
-│   ├── setup.sql            # Schema de la base de datos
-│   └── realtime.sql         # Habilitar Realtime
-└── tests/                   # Tests unitarios
+│   ├── setup.sql           # Schema
+│   └── realtime.sql        # Realtime
+└── components.json         # shadcn config
 ```
 
 ---
@@ -149,20 +125,39 @@ frontend/
 
 | Comando | Descripción |
 |---------|-------------|
-| `npm run dev` | Servidor de desarrollo (localhost:3000) |
+| `npm run dev` | Servidor de desarrollo |
 | `npm run build` | Build de producción |
-| `npm run start` | Ejecutar build de producción |
-| `npm run test` | Ejecutar tests |
+| `npm run start` | Ejecutar build |
+| `npm run test` | Tests unitarios |
 | `npm run lint` | Verificar código |
 
 ---
 
-## 🎨 Diseño
+## 🎨 Diseño y UI
 
 - **Modo oscuro** por defecto
 - **5-Star Branding**: Purpura, azul, amarillo
-- **Gradientes suaves**
-- **Responsive**: Funciona en móvil y desktop
+- **Responsive**: Mobile first, funciona en móvil y desktop
+- **shadcn/ui**: Componentes accesibles con variantes
+
+---
+
+## 📦 Dependencies Aggregated
+
+```json
+{
+  "@radix-ui/react-slot": "^1.1.0",
+  "@base-ui/react": "^7.0.0",
+  "@supabase/supabase-js": "^2.47.0",
+  "class-variance-authority": "^0.7.0",
+  "clsx": "^2.1.1",
+  "lucide-react": "^0.460.0",
+  "nanoid": "^5.0.8",
+  "next": "^16.2.4",
+  "react": "^19.0.0",
+  "tailwind-merge": "^2.6.0"
+}
+```
 
 ---
 
